@@ -1,4 +1,4 @@
-# adsbib
+# ads-bib
 
 A tool for collecting BibTeX records from NASA ADS.
 

@@ -7,10 +7,11 @@
 ##
 ## BibTeX data will be collected and output to bib-lib.bib
 ##
-## Note : To strip an existing BibTeX file down to bibcodes,
+## Note : To strip an existing BibTeX file down to bibcodes with vim,
 ##	:v/^@/d
 ##	:%s/@.*{//g
 ##	:%s/,//g
+
 import ads
 
 ## Disable this bit until sorting out optional arguments...
@@ -28,15 +29,12 @@ with open('bibcodes') as f:
 	bibcode = f.read().splitlines()
 f.close()
 
-## Loop through 
-for bc in bibcode:
+## Query ADS with the set of bibcodes
+q = ads.ExportQuery(bibcodes=bibcode,format='bibtex')
+bibtex = q.execute()
 
-	## Query the ADS API
-	q = list(ads.SearchQuery(bibcode=bc))
-
-	## Output the resulting BibTeX data to file
-	with open('bib-lib.bib','a') as bibfile:
-		for paper in q:
-			print(paper.bibtex, file=bibfile)
+## Write BibTeX entries to file
+with open('bib-lib.bib', 'a') as bibfile:
+	print(bibtex, file=bibfile)
 
 bibfile.close()
